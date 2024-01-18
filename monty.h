@@ -7,6 +7,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdarg.h>
+#define _GNU_SOURCE
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -36,5 +37,26 @@ typedef struct instruction_s
 	char *opcode;
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
+
+extern stack_t *head;
+typedef void (*op_func)(stack_t **, unsigned int);
+
+void open_file(char *file_name);
+void read_file(FILE *f);
+stack_t *create_node(int n);
+void free_nodes(void);
+void add_to_queue(stack_t **new_node, __attribute__((unused)) unsigned int ln);
+int tokenize_line(char *buffer, int line_no, int format);
+void find_func(char *code, char *val, int ln, int format);
+void call_func(op_func func, char *op, char *val, int ln, int format);
+void err(int err_code, ...);
+void push(stack_t **new_node, __attribute__((unused))unsigned int ln);
+void pall(stack_t **stack, unsigned int line_no);
+void pint(stack_t **stack, unsigned int line_no);
+void pop(stack_t **stack, unsigned int line_no);
+void swap(stack_t **stack, unsigned int line_no);
+void add(stack_t **stack, unsigned int line_no);
+void nop(stack_t **stack, unsigned int line_no);
+void more_err(int err_code, ...);
 
 #endif
